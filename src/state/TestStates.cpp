@@ -1,32 +1,37 @@
 #include "TestStates.hpp"
 #include "../entity/TestEntity.hpp"
+#include "../util/Math.hpp"
 #include <iostream>
 
 using namespace state;
 using namespace test;
 
-void TestState::enter(entity::TestEntity* entity)
+void GoToState::enter(entity::TestEntity* entity)
 {
 
 }
 
-void TestState::execute(entity::TestEntity* entity)
+void GoToState::execute(entity::TestEntity* entity)
 {
-	entity->setPosition(sf::Vector2<float>(500, 500));
+	
+	float angle = math::toDegrees<float>(math::angle(entity->getPosition(), m_route.getCurrentWaypoint().getPosition()));
+	entity->setVelocity(sf::Vector2<float>(std::cos(angle)*5, std::sin(angle)*5));
+	entity->setPosition(sf::Vector2<float>(entity->getPosition().x + entity->getVelocity().x, entity->getPosition().y + entity->getVelocity().y));
+	m_route.update(entity->getPosition());
 }
 
-void TestState::exit(entity::TestEntity* entity)
+void GoToState::exit(entity::TestEntity* entity)
 {
 
 }
 
-bool TestState::criteria(entity::TestEntity* entity) const
+bool GoToState::criteria(entity::TestEntity* entity) const
 {
-
+	return false;
 }
 
-TestState* TestState::instance()
+GoToState* GoToState::instance()
 {
-	static TestState instance;
+	static GoToState instance;
 	return &instance;
 }

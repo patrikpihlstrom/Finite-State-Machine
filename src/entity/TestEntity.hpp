@@ -16,7 +16,7 @@ namespace entity
 			BaseEntity()
 		{
 			m_stateMachine = new StateMachine<TestEntity>();
-			m_stateMachine->setCurrentState(state::test::TestState::instance());
+			m_stateMachine->setCurrentState(state::test::GoToState::instance());
 		}
 
 		~TestEntity()

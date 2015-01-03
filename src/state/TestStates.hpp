@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseState.hpp"
+#include "../Waypoint/Route.hpp"
 #include <SFML/System/Vector2.hpp>
 
 namespace entity
@@ -11,17 +12,24 @@ namespace state
 {
 	namespace test
 	{
-		class TestState : public BaseState<entity::TestEntity>
+		class GoToState : public BaseState<entity::TestEntity>
 		{
 		private:
-			TestState()
-			{}
+			Route<float> m_route;
+
+			GoToState()
+			{
+				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 - 128)));
+				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 - 128)));
+				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 + 128)));
+				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 + 128)));
+			}
 			
-			TestState(const TestState&);
-			TestState& operator=(const TestState&);
+			GoToState(const GoToState&);
+			GoToState& operator=(const GoToState&);
 
 		public:
-			static TestState* instance();
+			static GoToState* instance();
 			
 			void enter(entity::TestEntity* entity);
 			void execute(entity::TestEntity* entity);

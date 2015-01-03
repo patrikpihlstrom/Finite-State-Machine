@@ -8,6 +8,12 @@ private:
 	sf::Vector2<T> m_position;
 
 public:
+	Waypoint()
+	{}
+
+	~Waypoint()
+	{}
+
 	Waypoint(const sf::Vector2<T>& position) :
 		m_position(position)
 	{}

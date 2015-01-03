@@ -9,7 +9,9 @@ namespace entity
 	class BaseEntity : public sf::Drawable
 	{
 	public:
-		BaseEntity()
+		BaseEntity() :
+			m_position(sf::Vector2<float>(1280/2, 720/2)),
+			m_velocity(sf::Vector2<float>(0, 0))
 		{}
 
 		virtual ~BaseEntity()
@@ -17,11 +19,6 @@ namespace entity
 
 		virtual void update() = 0;
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
-
-		void setPosition(const sf::Vector2f& position)
-		{
-			m_position = position;
-		}
 
 		sf::Vector2<float> getPosition() const
 		{
@@ -31,6 +28,16 @@ namespace entity
 		sf::Vector2<float> getVelocity() const
 		{
 			return m_velocity;
+		}
+
+		void setPosition(const sf::Vector2f& position)
+		{
+			m_position = position;
+		}
+
+		void setVelocity(const sf::Vector2f& velocity)
+		{
+			m_velocity = velocity;
 		}
 
 	protected:
