@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 
+namespace state
+{
 	template <class entity_type>
 	class BaseState
 	{
@@ -13,4 +15,4 @@
 
 		virtual bool criteria(entity_type*) const = 0;
 	};	
-
+}

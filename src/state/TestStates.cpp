@@ -2,22 +2,25 @@
 #include "../entity/TestEntity.hpp"
 #include <iostream>
 
-void TestState::enter(TestEntity* entity)
+using namespace state;
+using namespace test;
+
+void TestState::enter(entity::TestEntity* entity)
 {
 
 }
 
-void TestState::execute(TestEntity* entity)
+void TestState::execute(entity::TestEntity* entity)
 {
 	entity->setPosition(sf::Vector2<float>(500, 500));
 }
 
-void TestState::exit(TestEntity* entity)
+void TestState::exit(entity::TestEntity* entity)
 {
 
 }
 
-bool TestState::criteria(TestEntity* entity) const
+bool TestState::criteria(entity::TestEntity* entity) const
 {
 
 }

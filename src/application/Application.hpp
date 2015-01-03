@@ -9,7 +9,6 @@ class Application
 {
 public:
 	Application();
-	Application(const sf::Vector2<int> windowSize, const std::string windowTitle);
 	~Application();
 	
 private:
@@ -25,5 +24,5 @@ private:
 
 	sf::RenderWindow m_window;
 
-	TestEntity m_testEntity;
+	entity::TestEntity m_testEntity;
 };

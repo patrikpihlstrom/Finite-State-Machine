@@ -1,14 +1,6 @@
 #include "Application.hpp"
 
-Application::Application() : 
-	m_window(sf::VideoMode(1280, 720), "Finite State Machine", sf::Style::Close)
-{
-	initialize();
-	run();
-}
-
-Application::Application(const sf::Vector2<int> windowSize, const std::string windowTitle) : 
-	m_window(sf::VideoMode(windowSize.x, windowSize.y), windowTitle, sf::Style::Close)
+Application::Application()
 {
 	run();
 }
@@ -20,11 +12,15 @@ Application::~Application()
 
 void Application::initialize()
 {
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 32;
+
+	m_window.create(sf::VideoMode(1280, 720), "Finite State Machine", sf::Style::Close, settings);
+
 	m_running = true;
 	m_active = true;
 
-	m_testEntity = TestEntity();
-	m_testEntity.update();
+	m_testEntity = entity::TestEntity();
 }
 
 void Application::run()
@@ -73,7 +69,7 @@ void Application::handleEvents()
 
 void Application::update(sf::Time & p_deltaTime)
 {
-	
+	m_testEntity.update();
 }
 
 void Application::render()

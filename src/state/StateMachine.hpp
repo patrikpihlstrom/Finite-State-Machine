@@ -8,9 +8,9 @@ template <class entity_type>
 class StateMachine
 {
 private:
-	BaseState<entity_type>* m_currentState;
-	BaseState<entity_type>* m_previousState;
-	BaseState<entity_type>* m_globalState;
+	state::BaseState<entity_type>* m_currentState;
+	state::BaseState<entity_type>* m_previousState;
+	state::BaseState<entity_type>* m_globalState;
 
 public:
 	StateMachine() :
@@ -21,17 +21,17 @@ public:
 	
 	virtual ~StateMachine(){}
 
-	void setCurrentState(BaseState<entity_type>* state)
+	void setCurrentState(state::BaseState<entity_type>* state)
 	{
 		m_currentState = state;
 	}
 
-	void setPreviousState(BaseState<entity_type>* state)
+	void setPreviousState(state::BaseState<entity_type>* state)
 	{
 		m_previousState = state;
 	}
 
-	void setGlobalState(BaseState<entity_type>* state)
+	void setGlobalState(state::BaseState<entity_type>* state)
 	{
 		m_globalState = state;
 	}
@@ -49,7 +49,7 @@ public:
 		}
 	}
 
-	void changeState(BaseState<entity_type>* newState, entity_type* entity)
+	void changeState(state::BaseState<entity_type>* newState, entity_type* entity)
 	{
 		assert(newState && "<StateMachine::ChangeState>: trying to change to NULL state");
 
@@ -67,7 +67,7 @@ public:
 		changeState(m_previousState);
 	}
 
-	bool isInState(const BaseState<entity_type>& state) const
+	bool isInState(const state::BaseState<entity_type>& state) const
 	{
 		return typeid(*m_currentState) == typeid(state);
 	}

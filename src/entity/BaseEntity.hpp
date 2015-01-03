@@ -4,8 +4,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
-/*namespace entity
-{*/
+namespace entity
+{
 	class BaseEntity : public sf::Drawable
 	{
 	public:
@@ -36,5 +36,4 @@
 	protected:
 		sf::Vector2<float> m_position, m_velocity;
 	};
-/*}
-*/
+}

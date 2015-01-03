@@ -4,7 +4,8 @@
 #include "../state/StateMachine.hpp"
 #include "../state/TestStates.hpp"
 
-
+namespace entity
+{
 	class TestEntity : public BaseEntity
 	{
 	private:
@@ -15,7 +16,7 @@
 			BaseEntity()
 		{
 			m_stateMachine = new StateMachine<TestEntity>();
-			m_stateMachine->setCurrentState(TestState::instance());
+			m_stateMachine->setCurrentState(state::test::TestState::instance());
 		}
 
 		~TestEntity()
@@ -28,9 +29,9 @@
 
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const
 		{
-			sf::CircleShape circleShape(32);
+			sf::CircleShape circleShape(16);
 			circleShape.setPosition(m_position);
-			circleShape.setFillColor(sf::Color(255, 0, 0));
+			circleShape.setFillColor(sf::Color(100, 225, 100));
 
 			target.draw(circleShape, states);
 		}
@@ -40,4 +41,4 @@
 			return m_stateMachine;
 		}
 	};
-
+}

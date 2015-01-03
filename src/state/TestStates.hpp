@@ -2,23 +2,32 @@
 #include "BaseState.hpp"
 #include <SFML/System/Vector2.hpp>
 
+namespace entity
+{
 	class TestEntity;
+}
 
-	class TestState : public BaseState<TestEntity>
+namespace state
+{
+	namespace test
 	{
-	private:
-		TestState()
-		{}
-		
-		TestState(const TestState&);
-		TestState& operator=(const TestState&);
+		class TestState : public BaseState<entity::TestEntity>
+		{
+		private:
+			TestState()
+			{}
+			
+			TestState(const TestState&);
+			TestState& operator=(const TestState&);
 
-	public:
-		static TestState* instance();
-		
-		void enter(TestEntity* entity);
-		void execute(TestEntity* entity);
-		void exit(TestEntity* entity);
+		public:
+			static TestState* instance();
+			
+			void enter(entity::TestEntity* entity);
+			void execute(entity::TestEntity* entity);
+			void exit(entity::TestEntity* entity);
 
-		bool criteria(TestEntity* entity) const;
-	};
+			bool criteria(entity::TestEntity* entity) const;
+		};
+	}
+}

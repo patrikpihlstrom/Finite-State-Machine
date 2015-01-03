@@ -2,7 +2,7 @@
 
 int main()
 {
-	Application application(sf::Vector2<int>(1280, 720), "Finite State Machine");
+	Application application;
 
 	return 0;
 }
