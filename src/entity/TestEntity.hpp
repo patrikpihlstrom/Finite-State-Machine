@@ -24,12 +24,14 @@ namespace entity
 
 		void update()
 		{
+			m_position += m_velocity;
 			m_stateMachine->update(this);
 		}
 
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const
 		{
 			sf::CircleShape circleShape(16);
+			circleShape.setOrigin(sf::Vector2f(16, 16));
 			circleShape.setPosition(m_position);
 			circleShape.setFillColor(sf::Color(100, 225, 100));
 

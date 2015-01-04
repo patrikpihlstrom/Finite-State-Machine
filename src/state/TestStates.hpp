@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseState.hpp"
-#include "../Waypoint/Route.hpp"
+#include "../navigation/Patrol.hpp"
+#include "../navigation/Route.hpp"
 #include <SFML/System/Vector2.hpp>
 
 namespace entity
@@ -15,14 +16,17 @@ namespace state
 		class GoToState : public BaseState<entity::TestEntity>
 		{
 		private:
-			Route<float> m_route;
+			Route<float>* m_route;
+			Patrol<float> m_patrol;
 
 			GoToState()
 			{
-				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 - 128)));
-				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 - 128)));
-				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 + 128)));
-				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 + 128)));
+				m_route = new Route<float>();
+				m_route->addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2, 720/2)));
+				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 + 128)));
+				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 + 128)));
+				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 - 128)));
+				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 - 128)));
 			}
 			
 			GoToState(const GoToState&);

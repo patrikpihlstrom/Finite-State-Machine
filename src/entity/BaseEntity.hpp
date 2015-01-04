@@ -10,7 +10,7 @@ namespace entity
 	{
 	public:
 		BaseEntity() :
-			m_position(sf::Vector2<float>(1280/2, 720/2)),
+			m_position(sf::Vector2<float>(0, 0)),
 			m_velocity(sf::Vector2<float>(0, 0))
 		{}
 

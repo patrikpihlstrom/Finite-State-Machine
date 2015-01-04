@@ -13,11 +13,21 @@ void GoToState::enter(entity::TestEntity* entity)
 
 void GoToState::execute(entity::TestEntity* entity)
 {
-	
-	float angle = math::toDegrees<float>(math::angle(entity->getPosition(), m_route.getCurrentWaypoint().getPosition()));
-	entity->setVelocity(sf::Vector2<float>(std::cos(angle)*5, std::sin(angle)*5));
-	entity->setPosition(sf::Vector2<float>(entity->getPosition().x + entity->getVelocity().x, entity->getPosition().y + entity->getVelocity().y));
-	m_route.update(entity->getPosition());
+	if (m_route == NULL || !m_route->destinationReached())
+	{
+		m_route->update(entity->getPosition());
+		entity->setVelocity(m_route->getVelocity(entity->getPosition(), 5));
+
+		if (m_route->destinationReached())
+		{
+			delete m_route;
+		}
+	}
+	else
+	{
+		m_patrol.update(entity->getPosition());
+		entity->setVelocity(m_patrol.getVelocity(entity->getPosition(), 2.5f));
+	}
 }
 
 void GoToState::exit(entity::TestEntity* entity)
@@ -27,7 +37,7 @@ void GoToState::exit(entity::TestEntity* entity)
 
 bool GoToState::criteria(entity::TestEntity* entity) const
 {
-	return false;
+	return m_patrol.destinationReached();
 }
 
 GoToState* GoToState::instance()
