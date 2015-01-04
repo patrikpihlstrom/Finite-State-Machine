@@ -1,10 +1,9 @@
 print '\x1b[31m' + "\n--------------------Finite-State-Machine--------------------" + '\033[0m'
 
 libs = Split("""
-sfml-graphics 
-sfml-window 
-sfml-system 
-armadillo
+sfml-graphics
+sfml-window
+sfml-system
 """)
 
 sources = Split("""
