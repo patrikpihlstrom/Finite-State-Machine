@@ -9,7 +9,6 @@ class StateMachine
 {
 private:
 	state::BaseState<entity_type>* m_currentState;
-	state::BaseState<entity_type>* m_previousState;
 	state::BaseState<entity_type>* m_globalState;
 
 	bool newCurrentState, newGlobalState;
@@ -17,7 +16,6 @@ private:
 public:
 	StateMachine() :
 		m_currentState(NULL),
-		m_previousState(NULL),
 		m_globalState(NULL),
 		newCurrentState(false),
 		newGlobalState(false)
@@ -30,11 +28,6 @@ public:
 		m_currentState = state;
 
 		newCurrentState = true;
-	}
-
-	void setPreviousState(state::BaseState<entity_type>* state)
-	{
-		m_previousState = state;
 	}
 
 	void setGlobalState(state::BaseState<entity_type>* state)
@@ -73,18 +66,13 @@ public:
 	{
 		assert(newState && "<StateMachine::changeState>: trying to change to NULL state");
 
-		m_previousState = m_currentState;
-
 		m_currentState->exit(entity);
+
+		delete m_currentState;
 
 		m_currentState = newState;
 
 		m_currentState->enter(entity);
-	}
-
-	void revertToPreviousState()
-	{
-		changeState(m_previousState);
 	}
 
 	bool isInState(const state::BaseState<entity_type>& state) const
@@ -95,11 +83,6 @@ public:
 	bool currentStateCriteria(entity_type* entity) const
 	{
 		return m_currentState->criteria(entity);
-	}
-
-	bool previousStateCriteria(entity_type* entity) const
-	{
-		return m_previousState->criteria(entity);
 	}
 
 	bool globalStateCriteria(entity_type* entity) const

@@ -18,7 +18,11 @@ namespace state
 		{
 		private:
 			Patrol<float> m_patrol;
+			
+			PatrolState(const PatrolState&);
+			PatrolState& operator=(const PatrolState&);
 
+		public:
 			PatrolState()
 			{
 				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 + 128)));
@@ -26,11 +30,7 @@ namespace state
 				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 + 128, 720/2 - 128)));
 				m_patrol.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2 - 128, 720/2 - 128)));
 			}
-			
-			PatrolState(const PatrolState&);
-			PatrolState& operator=(const PatrolState&);
 
-		public:
 			static PatrolState* instance();
 			
 			void enter(entity::TestEntity* entity);
@@ -47,14 +47,18 @@ namespace state
 
 			RouteState()
 			{
-				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(0, 0)));
-				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(1280/2, 720/2)));
+				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(64, 64)));
 			}
 			
 			RouteState(const RouteState&);
 			RouteState& operator=(const RouteState&);
 
 		public:
+			RouteState(const sf::Vector2i& waypoint)
+			{
+				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(waypoint)));
+			}
+
 			static RouteState* instance();
 			
 			void enter(entity::TestEntity* entity);

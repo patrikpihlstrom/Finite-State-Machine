@@ -3,6 +3,7 @@
 #include "../util/Math.hpp"
 #include <iostream>
 #include <random>
+#include <SFML/Window/Mouse.hpp>
 
 using namespace state;
 using namespace test;
@@ -21,7 +22,7 @@ void PatrolState::execute(entity::TestEntity* entity)
 	if (criteria(entity))
 	{
 		m_patrol.reset();
-		entity->getStateMachine()->changeState(RouteState::instance(), entity);
+		entity->getStateMachine()->changeState(new RouteState(sf::Mouse::getPosition()), entity);
 	}
 }
 
@@ -32,7 +33,7 @@ void PatrolState::exit(entity::TestEntity* entity)
 
 bool PatrolState::criteria(entity::TestEntity* entity) const
 {
-	return m_patrol.endOfLine();
+	return sf::Mouse::isButtonPressed(sf::Mouse::Left);
 }
 
 PatrolState* PatrolState::instance()
@@ -59,7 +60,7 @@ void RouteState::execute(entity::TestEntity* entity)
 	if (criteria(entity))
 	{
 		m_route.reset();
-		entity->getStateMachine()->changeState(PatrolState::instance(), entity);
+		entity->getStateMachine()->changeState(new PatrolState(), entity);
 	}
 }
 
