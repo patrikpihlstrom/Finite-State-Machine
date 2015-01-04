@@ -33,7 +33,6 @@ public:
 
 		if (m_index >= m_waypoints.size())
 		{
-			m_waypoints.clear();
 			m_destinationReached = true;
 		}
 	}
@@ -90,5 +89,11 @@ public:
 	bool destinationReached() const
 	{
 		return m_destinationReached;
+	}
+
+	void reset()
+	{
+		m_index = 0;
+		m_destinationReached = 0;
 	}
 };

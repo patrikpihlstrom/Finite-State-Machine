@@ -2,46 +2,79 @@
 #include "../entity/TestEntity.hpp"
 #include "../util/Math.hpp"
 #include <iostream>
+#include <random>
 
 using namespace state;
 using namespace test;
 
-void GoToState::enter(entity::TestEntity* entity)
+// PatrolState
+void PatrolState::enter(entity::TestEntity* entity)
 {
-
+	entity->color = sf::Color(100, 225, 100);
 }
 
-void GoToState::execute(entity::TestEntity* entity)
+void PatrolState::execute(entity::TestEntity* entity)
 {
-	if (m_route == NULL || !m_route->destinationReached())
-	{
-		m_route->update(entity->getPosition());
-		entity->setVelocity(m_route->getVelocity(entity->getPosition(), 5));
+	m_patrol.update(entity->getPosition());
+	entity->setVelocity(m_patrol.getVelocity(entity->getPosition(), 2.5f));
 
-		if (m_route->destinationReached())
-		{
-			delete m_route;
-		}
-	}
-	else
+	if (criteria(entity))
 	{
-		m_patrol.update(entity->getPosition());
-		entity->setVelocity(m_patrol.getVelocity(entity->getPosition(), 2.5f));
+		m_patrol.reset();
+		entity->getStateMachine()->changeState(RouteState::instance(), entity);
 	}
 }
 
-void GoToState::exit(entity::TestEntity* entity)
+void PatrolState::exit(entity::TestEntity* entity)
 {
 
 }
 
-bool GoToState::criteria(entity::TestEntity* entity) const
+bool PatrolState::criteria(entity::TestEntity* entity) const
 {
-	return m_patrol.destinationReached();
+	return m_patrol.endOfLine();
 }
 
-GoToState* GoToState::instance()
+PatrolState* PatrolState::instance()
 {
-	static GoToState instance;
+	static PatrolState instance;
+	return &instance;
+}
+
+
+// RouteState
+void RouteState::enter(entity::TestEntity* entity)
+{
+	entity->color = sf::Color(225, 100, 100);
+}
+
+void RouteState::execute(entity::TestEntity* entity)
+{
+	if (!m_route.destinationReached())
+	{
+		m_route.update(entity->getPosition());
+		entity->setVelocity(m_route.getVelocity(entity->getPosition(), 5));
+	}
+
+	if (criteria(entity))
+	{
+		m_route.reset();
+		entity->getStateMachine()->changeState(PatrolState::instance(), entity);
+	}
+}
+
+void RouteState::exit(entity::TestEntity* entity)
+{
+
+}
+
+bool RouteState::criteria(entity::TestEntity* entity) const
+{
+	return m_route.destinationReached();
+}
+
+RouteState* RouteState::instance()
+{
+	static RouteState instance;
 	return &instance;
 }

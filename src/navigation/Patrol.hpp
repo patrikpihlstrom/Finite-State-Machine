@@ -10,13 +10,14 @@ class Patrol
 {
 private:
 	std::vector<Waypoint<T>> m_waypoints;
-	unsigned int m_index;
-	bool m_destinationReached;
+	unsigned int m_index, m_count;
+	bool m_endOfLine;
 
 public:
 	Patrol() :
 		m_index(0),
-		m_destinationReached(false)
+		m_count(0),
+		m_endOfLine(false)
 	{}
 
 	~Patrol()
@@ -31,9 +32,14 @@ public:
 	{
 		m_index++;
 
+		m_endOfLine = false;
+
 		if (m_index >= m_waypoints.size())
 		{
 			m_index = 0;
+			m_count++;
+
+			m_endOfLine = true;
 		}
 	}
 
@@ -46,48 +52,50 @@ public:
 
 	void update(const sf::Vector2<T>& entityPosition)
 	{
-		if (!m_destinationReached)
+		float distance = math::distance<T>(entityPosition, getCurrentWaypoint().getPosition());
+		
+		if (distance == 0)
 		{
-			float distance = math::distance<T>(entityPosition, getCurrentWaypoint().getPosition());
-			
-			if (distance == 0)
-			{
-				increment();
-			}
+			increment();
 		}
 	}
 
 	sf::Vector2<T> getVelocity(const sf::Vector2<T>& entityPosition, const float desiredSpeed = 10) const
 	{
-		if (!m_destinationReached)
+		float angle = math::toDegrees<T>(math::angle<T>(entityPosition, getCurrentWaypoint().getPosition()));
+		float distance = math::distance<T>(entityPosition, getCurrentWaypoint().getPosition());
+
+		float velx = (getCurrentWaypoint().getPosition().x - entityPosition.x)/distance;
+		float vely = (getCurrentWaypoint().getPosition().y - entityPosition.y)/distance;
+
+		if (desiredSpeed < distance)
 		{
-			float angle = math::toDegrees<T>(math::angle<T>(entityPosition, getCurrentWaypoint().getPosition()));
-			float distance = math::distance<T>(entityPosition, getCurrentWaypoint().getPosition());
-
-			float velx = (getCurrentWaypoint().getPosition().x - entityPosition.x)/distance;
-			float vely = (getCurrentWaypoint().getPosition().y - entityPosition.y)/distance;
-
-			if (desiredSpeed < distance)
-			{
-				velx *= desiredSpeed;
-				vely *= desiredSpeed;
-			}
-			else
-			{
-				velx *= distance;
-				vely *= distance;
-			}
-
-			return sf::Vector2<T>(velx, vely);
+			velx *= desiredSpeed;
+			vely *= desiredSpeed;
 		}
 		else
 		{
-			return sf::Vector2<T>(0, 0);
+			velx *= distance;
+			vely *= distance;
 		}
+
+		return sf::Vector2<T>(velx, vely);
 	}
 
-	bool destinationReached() const
+	unsigned int getCount() const
 	{
-		return m_destinationReached;
+		return m_count;
+	}
+
+	bool endOfLine() const
+	{
+		return m_endOfLine;
+	}
+
+	void reset()
+	{
+		m_index = 0;
+		m_count = 0;
+		m_endOfLine = false;
 	}
 };

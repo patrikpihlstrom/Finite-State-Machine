@@ -12,11 +12,13 @@ namespace entity
 		StateMachine<TestEntity>* m_stateMachine;
 	
 	public:
+		sf::Color color;
+
 		TestEntity() :
 			BaseEntity()
 		{
 			m_stateMachine = new StateMachine<TestEntity>();
-			m_stateMachine->setCurrentState(state::test::GoToState::instance());
+			m_stateMachine->setCurrentState(state::test::PatrolState::instance());
 		}
 
 		~TestEntity()
@@ -33,7 +35,7 @@ namespace entity
 			sf::CircleShape circleShape(16);
 			circleShape.setOrigin(sf::Vector2f(16, 16));
 			circleShape.setPosition(m_position);
-			circleShape.setFillColor(sf::Color(100, 225, 100));
+			circleShape.setFillColor(color);
 
 			target.draw(circleShape, states);
 		}
