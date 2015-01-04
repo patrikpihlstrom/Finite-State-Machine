@@ -45,8 +45,6 @@ namespace state
 		private:
 			Route<float> m_route;
 
-			std::unique_ptr<int> test;
-
 			RouteState()
 			{
 				m_route.addWaypoint(Waypoint<float>(sf::Vector2<float>(0, 0)));
